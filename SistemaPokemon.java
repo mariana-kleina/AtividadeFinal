@@ -1,8 +1,11 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 public class SistemaPokemon {
 
-    // Exibe o menu de opções
     private static void exibirMenu() {
         System.out.println("\n=== Menu da Pokestore ===");
         System.out.println("1. Cadastrar Pokémon");
@@ -14,11 +17,11 @@ public class SistemaPokemon {
         System.out.println("7. Remover Pokémon");
         System.out.println("8. Excluir todos os Pokémons");
         System.out.println("9. Editar Pokémon");
+        System.out.println("10. Salvar Pokémons em Arquivo");
         System.out.println("0. Sair");
         System.out.print("\nEscolha uma opção:");
     }
 
-    // Verifica e executa a opção escolhida pelo usuário
     private static void verificarOpcao(int opcao) {
         switch (opcao) {
             case 1:
@@ -48,6 +51,9 @@ public class SistemaPokemon {
             case 9:
                 editarPokemon();
                 break;
+            case 10:
+            	salvarPokemonsEmArquivo();
+                break;
             case 0:
                 System.out.println("\nSaindo da Pokestore...");
                 break;
@@ -58,7 +64,6 @@ public class SistemaPokemon {
         System.out.println();
     }
 
-    // Cadastra um novo Pokémon
     private static void cadastrarPokemon() {
         System.out.print("\nInforme o nome do Pokémon: ");
         String nome = Console.lerString();
@@ -86,7 +91,6 @@ public class SistemaPokemon {
         }
     }
 
-    // Busca um Pokémon pelo nome
     private static void buscarPokemon() {
         System.out.print("\nInforme o nome do Pokémon: ");
         String nome = Console.lerString();
@@ -99,7 +103,6 @@ public class SistemaPokemon {
         }
     }
 
-    // Lista os Pokémons fornecidos
     private static void listarPokemons(List<Pokemon> pokemons) {
         if (pokemons.isEmpty()) {
             System.out.println("Não há Pokémons cadastrados.");
@@ -111,7 +114,6 @@ public class SistemaPokemon {
         }
     }
 
-    // Remove um Pokémon pelo nome
     private static void removerPokemon() {
         System.out.print("\nInforme o nome do Pokémon: ");
         String nome = Console.lerString();
@@ -122,13 +124,11 @@ public class SistemaPokemon {
         }
     }
 
-    // Exclui todos os Pokémons da lista
     private static void excluirTodosPokemons() {
         CadastroPokemons.excluirTodos();
         System.out.println("\nTodos os Pokémons foram excluídos.");
     }
 
-    // Edita os dados de um Pokémon
     private static void editarPokemon() {
         System.out.print("\nInforme o nome do Pokémon que deseja editar: ");
         String nomeAntigo = Console.lerString();
@@ -145,7 +145,6 @@ public class SistemaPokemon {
         }
     }
 
-    // Método principal de execução do sistema
     public static void executar() {
         int opcao;
         do {
@@ -154,4 +153,20 @@ public class SistemaPokemon {
             verificarOpcao(opcao);
         } while (opcao != 0);
     }
+    
+    public static void salvarPokemonsEmArquivo() {
+        String nomeArquivo = "pokedex.txt";
+        File file = new File(nomeArquivo);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            for (Pokemon pokemon : CadastroPokemons.getListaPokemons()) {
+                writer.write(pokemon.toString());
+                writer.newLine();
+            }
+            System.out.println("Pokémons salvos em " + file.getAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("Erro ao salvar Pokémons: " + e.getMessage());
+        }
+    }
+    
+    
 }

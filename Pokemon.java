@@ -9,7 +9,6 @@ public class Pokemon {
         this.nivel = nivel;
     }
 
-    // Métodos getters e setters
     public String getNome() {
         return nome;
     }
