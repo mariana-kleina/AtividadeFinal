@@ -22,12 +22,15 @@
 <p>SistemaPokemon.java: Classe que gerencia o sistema de Pokémons, incluindo adição e listagem.</p>
 <p>pokedex.txt: Arquivo que armazena os dados dos Pokémons cadastrados.</p>
 <p>README.md: Documento que contém informações sobre o projeto.</p>
+<p>.classpath, .gitignore, .project: Arquivos de configuração do projeto.</p>
 
 # Funcionalidades
 
 <p>Cadastro de Pokémons: Permite adicionar novos Pokémons ao sistema, especificando seu tipo (água, fogo ou grama).</p>
 <p>Listagem de Pokémons: Exibe todos os Pokémons cadastrados.</p>
 <p>Gerenciamento de Pokémons: Facilita a organização e consulta das informações dos Pokémons cadastrados.</p>
+<p>Tratamento de Exceções: Implementa tratamento adequado de erros para garantir a robustez da aplicação.</p>
+<p>Persistência de Dados: Leitura e gravação de dados em arquivos de texto para armazenar as informações dos Pokémons.</p>
 
 # Autores 
 <p>Este projeto foi desenvolvido por:</p><br>
