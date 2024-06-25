@@ -64,7 +64,6 @@ O ChatGPT foi utilizado para auxiliar na criação da documentação do projeto,
 ## Referências e Recursos
 
 - Documentação do Java: Materiais fornecidos em aula. 
-- Recursos sobre Herança e Polimorfismo em Java: [Herança e Polimorfismo](https://www.devmedia.com.br/heranca-e-polimorfismo-em-java/26147)
 - GitHub: Plataforma para hospedagem e versionamento de código.
 
 ---
