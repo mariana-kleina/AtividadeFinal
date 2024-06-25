@@ -1,7 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 public class SistemaPokemon {
@@ -18,8 +15,11 @@ public class SistemaPokemon {
         System.out.println("8. Excluir todos os Pokémons");
         System.out.println("9. Editar Pokémon");
         System.out.println("10. Salvar Pokémons em Arquivo");
+        System.out.println("11. Carregar Pokémons de Arquivo");
+        System.out.println("12. Cadastrar Treinador");
+        System.out.println("13. Listar Treinadores");
         System.out.println("0. Sair");
-        System.out.print("\nEscolha uma opção:");
+        System.out.print("\nEscolha uma opção: ");
     }
 
     private static void verificarOpcao(int opcao) {
@@ -52,7 +52,16 @@ public class SistemaPokemon {
                 editarPokemon();
                 break;
             case 10:
-            	salvarPokemonsEmArquivo();
+                salvarPokemonsEmArquivo();
+                break;
+            case 11:
+                carregarPokemonsDeArquivo();
+                break;
+            case 12:
+                cadastrarTreinador();
+                break;
+            case 13:
+                listarTreinadores();
                 break;
             case 0:
                 System.out.println("\nSaindo da Pokestore...");
@@ -145,6 +154,26 @@ public class SistemaPokemon {
         }
     }
 
+    private static void cadastrarTreinador() {
+        System.out.print("\nInforme o nome do Treinador: ");
+        String nome = Console.lerString();
+        Treinador treinador = new Treinador(nome);
+        CadastroPokemons.cadastrarTreinador(treinador);
+        System.out.println("\nTreinador cadastrado com sucesso!");
+    }
+
+    private static void listarTreinadores() {
+        List<Treinador> treinadores = CadastroPokemons.getListaTreinadores();
+        if (treinadores.isEmpty()) {
+            System.out.println("Não há treinadores cadastrados.");
+        } else {
+            System.out.println("\nLista de Treinadores:");
+            for (Treinador treinador : treinadores) {
+                System.out.println(treinador);
+            }
+        }
+    }
+
     public static void executar() {
         int opcao;
         do {
@@ -153,7 +182,7 @@ public class SistemaPokemon {
             verificarOpcao(opcao);
         } while (opcao != 0);
     }
-    
+
     public static void salvarPokemonsEmArquivo() {
         String nomeArquivo = "pokedex.txt";
         File file = new File(nomeArquivo);
@@ -167,6 +196,39 @@ public class SistemaPokemon {
             System.err.println("Erro ao salvar Pokémons: " + e.getMessage());
         }
     }
-    
-    
+
+    public static void carregarPokemonsDeArquivo() {
+        String nomeArquivo = "pokedex.txt";
+        File file = new File(nomeArquivo);
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                String[] partes = linha.split(",");
+                String tipo = partes[0];
+                String nome = partes[1];
+                int nivel = Integer.parseInt(partes[2]);
+
+                switch (tipo.toLowerCase()) {
+                    case "pokemonagua":
+                        boolean sabeNadar = Boolean.parseBoolean(partes[3]);
+                        CadastroPokemons.cadastrar(new PokemonAgua(nome, nivel, sabeNadar));
+                        break;
+                    case "pokemonfogo":
+                        int temperaturaCorporal = Integer.parseInt(partes[3]);
+                        CadastroPokemons.cadastrar(new PokemonFogo(nome, nivel, temperaturaCorporal));
+                        break;
+                    case "pokemongrama":
+                        int quantidadeFolhas = Integer.parseInt(partes[3]);
+                        CadastroPokemons.cadastrar(new PokemonGrama(nome, nivel, quantidadeFolhas));
+                        break;
+                    default:
+                        System.out.println("Tipo de Pokémon inválido no arquivo.");
+                        break;
+                }
+            }
+            System.out.println("Pokémons carregados de " + file.getAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("Erro ao carregar Pokémons: " + e.getMessage());
+        }
+    }
 }
